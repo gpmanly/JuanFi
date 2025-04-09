@@ -604,8 +604,10 @@ void handleCancelTopUp(){
       return;
   }
   targetMilis = millis();
-  char * keys[] = {"status"};
-  char * values[] = {"true"};
+  char key0[] = "status";
+  char val0[] = "true";
+  char* keys[] = {key0};
+  char* values[] = {val0};
   setupCORSPolicy();
   server.send(200, "application/json", toJson(keys, values, 1));
   
@@ -860,8 +862,8 @@ String getContentType(String filename){
 
 bool checkIfSystemIsAvailable(){
   if(!mikrotekConnectionSuccess){
-    char * keys[] = {"status", "errorCode"};
-    char * values[] = {"false", "coin.slot.notavailable"};
+    char * keys[] = {(char*)"status", (char*)"errorCode"};
+    char * values[] = {(char*)"false", (char*)"coin.slot.notavailable"};
     setupCORSPolicy();
     server.send(200, "application/json", toJson(keys, values, 2));
     return false;
@@ -972,8 +974,8 @@ void checkCoin(){
   }
 
   if(coinExpired){
-    char * keys[] = {"status", "errorCode"};
-    char * values[] = {"false", "coins.wait.expired"};
+    char * keys[] = {(char*)"status", (char*)"errorCode"};
+    char * values[] = {(char*)"false", (char*)"coins.wait.expired"};
     setupCORSPolicy();
     server.send(200, "application/json", toJson(keys, values, 2));
     return;
@@ -982,7 +984,7 @@ void checkCoin(){
   if(!acceptCoin){
     totalCoin += processCoin;
     timeToAdd = calculateAddTime();
-    char * keys[] = {"status", "newCoin", "timeAdded", "totalCoin", "validity", "data"};
+    char * keys[] = {(char*)"status", (char*)"newCoin", (char*)"timeAdded", (char*)"totalCoin", (char*)"validity", (char*)"data"};
     char coinStr[16];
     itoa(processCoin, coinStr, 10);
     char timeToAddStr[16];
@@ -993,12 +995,12 @@ void checkCoin(){
     itoa(currentValidity, validityStr, 10);
     char currentDataLimitStr[16];
     itoa(currentDataLimit, currentDataLimitStr, 10);
-    char * values[] = {"true", coinStr, timeToAddStr, totalCoinStr, validityStr, currentDataLimitStr};
+    char * values[] = {(char*)"true", coinStr, timeToAddStr, totalCoinStr, validityStr, currentDataLimitStr};
     activateCoinSlot();
     setupCORSPolicy();
     server.send(200, "application/json", toJson(keys, values, 6));
   }else{
-    char * keys[] = {"status", "errorCode", "remainTime", "timeAdded", "totalCoin", "waitTime", "validity", "data"};
+    char * keys[] = {(char*)"status", (char*)"errorCode", (char*)"remainTime", (char*)"timeAdded", (char*)"totalCoin", (char*)"waitTime", (char*)"validity", (char*)"data"};
     char remainTimeStr[20];
     long remain = targetMilis - millis();
     itoa(remain, remainTimeStr, 10);
@@ -1012,7 +1014,7 @@ void checkCoin(){
     itoa(currentValidity, validityStr, 10);
     char currentDataLimitStr[16];
     itoa(currentDataLimit, currentDataLimitStr, 10);
-    char * values[] = {"false", "coin.not.inserted", remainTimeStr, timeToAddStr, totalCoinStr, waitTimeStr, validityStr, currentDataLimitStr};
+    char * values[] = {(char*)"false", (char*)"coin.not.inserted", remainTimeStr, timeToAddStr, totalCoinStr, waitTimeStr, validityStr, currentDataLimitStr};
     setupCORSPolicy();
     server.send(200, "application/json", toJson(keys, values, 8));
   }
@@ -1039,14 +1041,14 @@ void useVoucher(){
   }else{
     addAttemptToCoinslot();
   }
-  char * keys[] = {"status", "totalCoin", "timeAdded", "validity"};
+  char * keys[] = {(char*)"status", (char*)"totalCoin", (char*)"timeAdded", (char*)"validity"};
   char totalCoinStr[16];
   itoa(totalCoin, totalCoinStr, 10);
   char timeToAddStr[16];
   itoa(timeToAdd, timeToAddStr, 10);
   char validityStr[16];
   itoa(currentValidity, validityStr, 10);
-  char * values[] = {"true", totalCoinStr, timeToAddStr, validityStr};
+  char * values[] = {(char*)"true", totalCoinStr, timeToAddStr, validityStr};
   printThankYou();
   resetGlobalVariables();
   setupCORSPolicy();
@@ -1068,8 +1070,8 @@ void updateStatistic(){
 
 bool validateVoucher(String voucher){
   if(voucher != currentActiveVoucher){
-      char * keys[] = {"status", "errorCode"};
-      char * values[] = {"false", "coinslot.busy"};
+      char * keys[] = {(char*)"status", (char*)"errorCode"};
+      char * values[] = {(char*)"false", (char*)"coinslot.busy"};
       setupCORSPolicy();
       server.send(200, "application/json", toJson(keys, values, 2));
       return false;
@@ -1086,8 +1088,8 @@ void topUp() {
         hasInternetConnection = hasInternetConnect();
   }
   if(!hasInternetConnection){
-    char * keys[] = {"status", "errorCode"};
-    char * values[] = {"false", "no.internet.detected"};
+    char * keys[] = {(char*)"status", (char*)"errorCode"};
+    char * values[] = {(char*)"false", (char*)"no.internet.detected"};
     setupCORSPolicy();
     server.send(200, "application/json", toJson(keys, values, 2));
     return;
@@ -1099,8 +1101,8 @@ void topUp() {
 
   String macAdd = server.arg("mac");
   if(!checkMacAddress(macAdd)){
-    char * keys[] = {"status", "errorCode"};
-    char * values[] = {"false", "coin.slot.banned"};
+    char * keys[] = {(char*)"status", (char*)"errorCode"};
+    char * values[] = {(char*)"false", (char*)"coin.slot.banned"};
     setupCORSPolicy();
     server.send(200, "application/json", toJson(keys, values, 2));
     return;
@@ -1122,11 +1124,11 @@ void topUp() {
       isNewVoucher = false;
     }
   }
-  char * keys[] = {"status", "voucher"};
+  char * keys[] = {(char*)"status", (char*)"voucher"};
   int voucherLength = voucher.length() + 1;
   char voucherChar [voucherLength];
   voucher.toCharArray(voucherChar, voucherLength);
-  char * values[] = {"true", voucherChar};
+  char * values[] = {(char*)"true", voucherChar};
   if(voucher != currentActiveVoucher){
     resetGlobalVariables();
     activateCoinSlot();
