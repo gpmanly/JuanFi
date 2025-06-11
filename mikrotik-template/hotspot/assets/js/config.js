@@ -60,4 +60,4 @@ var disableVoucherInput = true;
 //enable mac address as voucher code
 var macAsVoucherCode = false;
 
-var qrCodeVoucherPurchase = true;
+var qrCodeVoucherPurchase = false;
