@@ -43,7 +43,7 @@ var vendorIpAddress = "10.0.0.252";
 
 var chargingEnable = false; //replace true if you enable charging, this can be override if multivendo setup
 
-var eloadEnable = false; //replace true if you enable eload, this can be override if multivendo setup
+var eloadEnable = true; //replace true if you enable eload, this can be override if multivendo setup
 
 //hide pause time / logout true = you want to show pause / logout button
 var showPauseTime = false;
@@ -60,4 +60,4 @@ var disableVoucherInput = true;
 //enable mac address as voucher code
 var macAsVoucherCode = false;
 
-var qrCodeVoucherPurchase = false;
+var qrCodeVoucherPurchase = true;
